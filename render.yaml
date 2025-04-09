@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: consolegbretro
+    env: php
+    buildCommand: ""
+    startCommand: ""
+    plan: free
+    region: frankfurt
+    rootDir: .
