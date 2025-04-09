@@ -47,8 +47,8 @@ try {
         'email' => $client['email'],
         'commande' => $commande_resume
     ],
-        'success_url' => 'http://localhost/consolegbretro/success.php?session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => 'http://localhost/consolegbretro/annule.html',
+        'success_url' => 'https://consolegbretro.onrender.com/success.php?session_id={CHECKOUT_SESSION_ID}', 
+        'cancel_url' => 'https://consolegbretro.onrender.com/annule.html',
     ]);
 
     echo json_encode(['sessionId' => $session->id]);
