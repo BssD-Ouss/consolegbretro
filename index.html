@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="ConsoleGBRetro - Console rétro gaming avec plus de 20 000 jeux intégrés. Modèles disponibles en plusieurs couleurs. Redécouvrez le plaisir du rétro !"/>
+  <meta name="keywords" content="console rétro, jeux rétro, gameboy, retrogaming, ps1, gba, snes, n64, jeux classiques, portable">
+  <meta name="author" content="ConsoleGBRetro">
+  <title>ConsoleGBRetro | Console Rétro Gaming 20K+ Jeux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe("pk_test_51MqgSbKffElW1aFCbLOyAjrd1PGeNwOJFSI97i4c0bJgVYOFBFePl57DippTLrxBanODTG66IrD5s3Vt9Pr1d5Kj0000rLjeG6"); // ta clé publique
+</script>
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: #1f1f1f;
+      border-bottom: 4px solid #ff004c;
+    }
+    header img {
+      max-width: 250px;
+      margin-bottom: 0.1rem;
+    }
+    header h1 {
+      color: #ff004c;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .container {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .intro {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #ccc;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .color-selector {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .color-btn {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    .color-btn:hover, .color-btn.active {
+      border: 2px solid #ff004c;
+      box-shadow: 0 0 10px #ff004c;
+    }
+
+    .gallery {
+      display: none;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .gallery img {
+      width: 300px;
+      border: 3px solid #ff004c;
+      border-radius: 10px;
+    }
+
+    .gallery.active {
+      display: flex;
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: #ddd;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .product-description ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+    .product-description ul li::before {
+      content: "🎮 ";
+    }
+
+    .cta {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .cta a {
+      background: #ff004c;
+      padding: 1rem 2rem;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.7rem;
+      color: #aaa;
+      border-top: 1px solid #333;
+      margin-top: 3rem;
+    }
+
+    @media(max-width: 600px) {
+      header img {
+        max-width: 70%;
+      }
+      .gallery img {
+        width: 90%;
+      }
+    }
+  .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin: 2rem 0;
+    }
+    .progress-step {
+      width: 30%;
+      text-align: center;
+      padding: 0.5rem;
+      border-bottom: 4px solid #666;
+      transition: all 0.3s;
+    }
+    .progress-step.active {
+      border-color: #ff004c;
+      color: #ff004c;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      background: #ff004c;
+      border: none;
+      padding: 1rem 2rem;
+      color: white;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .remove-btn {
+      background: none;
+      color: #ff004c;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+@media screen and (max-width: 768px) {
+  .progress-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .progress-step {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  th, td {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+  button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+ .buttons {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="img/logo.png" alt="Logo ConsoleGBRetro">
+  <p>La console rétro ultime - +1500 jeux intégrés 🎮</p>
+</header>
+
+<div class="container">
+
+  <div class="intro">
+    Bienvenue sur ConsoleGBRetro, la boutique dédiée aux passionnés du rétro-gaming !<br>
+    Nos consoles portables intègrent plus de 1500 jeux des meilleures plateformes :<br>
+    GameBoy Advance, PS1, SNES, NES, Dreamcast, N64 et bien plus encore !<br><br>
+    🔋 Autonomie de longue durée — 🎮 Design moderne — 📺 Sortie HDMI — 🎁 Idéal pour offrir !
+  </div>
+
+  <div class="color-selector">
+    <span class="color-btn" style="background:black;" onclick="showGallery('noir')" title="Noir"></span>
+    <span class="color-btn" style="background:white;" onclick="showGallery('blanc')" title="Blanc"></span>
+    <span class="color-btn" style="background:purple;" onclick="showGallery('violette')" title="Violette"></span>
+    <span class="color-btn" style="background:red;" onclick="showGallery('rouge')" title="Rouge"></span>
+    <span class="color-btn" style="background:orange;" onclick="showGallery('orange')" title="Orange"></span>
+  </div>
+
+  <!-- GALERIES -->
+  <div id="gallery-noir" class="gallery active">
+    <img src="img/noir1.jpg" alt="Console noire 1">
+    <img src="img/noir2.jpg" alt="Console noire 2">
+    <img src="img/noir3.jpg" alt="Console noire 3">
+  </div>
+
+  <div id="gallery-blanc" class="gallery">
+    <img src="img/blanc1.jpg" alt="Console blanche 1">
+    <img src="img/blanc2.jpg" alt="Console blanche 2">
+    <img src="img/blanc3.jpg" alt="Console blanche 3">
+  </div>
+
+  <div id="gallery-violette" class="gallery">
+    <img src="img/violette1.jpg" alt="Console violette 1">
+    <img src="img/violette2.jpg" alt="Console violette 2">
+    <img src="img/violette3.jpg" alt="Console violette 3">
+  </div>
+
+  <div id="gallery-rouge" class="gallery">
+    <img src="img/rouge1.jpg" alt="Console rouge 1">
+    <img src="img/rouge2.jpg" alt="Console rouge 2">
+    <img src="img/rouge3.jpg" alt="Console rouge 3">
+  </div>
+
+  <div id="gallery-orange" class="gallery">
+    <img src="img/orange1.jpg" alt="Console orange 1">
+    <img src="img/orange2.jpg" alt="Console orange 2">
+    <img src="img/orange3.jpg" alt="Console orange 3">
+  </div>
+
+  <div class="product-description">
+    <h2>Description du produit</h2>
+    Cette console rétro vous plonge dans la nostalgie avec une technologie moderne :
+    <ul>
+      <li>1500+ jeux classiques intégrés</li>
+      <li>Interface intuitive, menu en français</li>
+      <li>Compatible GBA, SNES, PS1, N64, Dreamcast, et plus</li>
+      <li>Sortie HDMI, sauvegarde instantanée</li>
+      <li>Batterie longue autonomie</li>
+      <li>Inclut câble, manuel, et boîte cadeau</li>
+    </ul>
+  </div>
+<div class="container">
+  <div class="progress-bar">
+    <div class="progress-step active" id="step1-bar">1. Produits</div>
+    <div class="progress-step" id="step2-bar">2. Coordonnées</div>
+    <div class="progress-step" id="step3-bar">3. Paiement</div>
+  </div>
+
+  <form id="orderForm">
+
+    <!-- ÉTAPE 1 -->
+    <div class="step active" id="step1">
+      <label for="color">Choisissez une couleur :</label>
+     <select id="color" name="color">
+     <option value="noir">Noir</option>
+     <option value="blanc">Blanc</option>
+     <option value="violette">Violette</option>
+     <option value="rouge">Rouge</option>
+     <option value="orange">Orange</option>
+     </select>
+
+
+      <label>Quantité :</label>
+      <input type="number" id="quantity" min="1" value="1" />
+
+      <button type="button" onclick="addToCart()">Ajouter au panier</button>
+
+      <div id="cart-container"></div>
+
+      <div class="buttons">
+        <div></div>
+        <button type="button" onclick="nextStep(1)">Suivant</button>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="step" id="step2">
+      <input type="text" name="prenom" placeholder="Prénom" id="prenom" required>
+      <input type="text" name="nom" placeholder="Nom" id="nom" required>
+      <input type="text" name="adresse" placeholder="Adresse" id="adresse" required>
+      <input type="text" name="code_postal" placeholder="Code postal" id="code_postal" required>
+      <input type="text" name="ville" placeholder="Ville" id="ville" required>
+      <input type="tel" name="telephone" placeholder="Téléphone" id="telephone" required>
+      <input type="email" name="email" placeholder="Email" id="email" required>
+
+      <div class="buttons">
+        <button type="button" onclick="prevStep(2)">Précédent</button>
+        <button type="button" onclick="nextStep(2)">Suivant</button>
+      </div>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="step" id="step3">
+      <h3>Récapitulatif :</h3>
+      <div id="summary"></div>
+      <h4>Vos coordonnées :</h4>
+      <div id="client-info"></div>
+      <p><strong>Total à payer : <span id="totalPrice">0</span> €</strong></p>
+
+      <div class="buttons">
+        <button type="button" onclick="prevStep(3)">Précédent</button>
+        <button type="button" onclick="validateOrder()">Valider la commande</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  const cart = [];
+
+  function addToCart() {
+    const color = document.getElementById('color').value;
+    const quantity = parseInt(document.getElementById('quantity').value);
+
+    if (!color || quantity < 1) {
+      alert("Veuillez choisir une couleur et une quantité valide.");
+      return;
+    }
+
+    const existing = cart.find(item => item.color === color);
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      cart.push({ color, quantity });
+    }
+
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-container');
+    if (cart.length === 0) {
+      container.innerHTML = "<p>Panier vide</p>";
+      return;
+    }
+
+    let html = `<table id="cart-table"><thead>
+      <tr><th>Couleur</th><th>Quantité</th><th>Prix Unitaire</th><th>Total</th><th></th></tr>
+      </thead><tbody>`;
+
+    let total = 0;
+    cart.forEach((item, index) => {
+      const lineTotal = item.quantity * 50;
+      total += lineTotal;
+      html += `<tr>
+        <td>${item.color}</td>
+        <td>${item.quantity}</td>
+        <td>50 €</td>
+        <td>${lineTotal} €</td>
+        <td><button class="remove-btn" onclick="removeFromCart(${index})">✖</button></td>
+      </tr>`;
+    });
+
+    html += `</tbody></table><p><strong>Total : ${total} €</strong></p>`;
+    container.innerHTML = html;
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+  }
+
+function nextStep(current) {
+  if (current === 1 && cart.length === 0) {
+    alert("Ajoutez au moins un produit au panier.");
+    return;
+  }
+
+  if (current === 2) {
+    // Validation des champs client
+    const form = document.getElementById('orderForm');
+    const formData = new FormData(form);
+
+    const requiredFields = ['prenom', 'nom', 'adresse', 'code_postal', 'ville', 'telephone', 'email'];
+    for (let field of requiredFields) {
+      if (!formData.get(field) || formData.get(field).trim() === "") {
+        alert("Veuillez remplir tous les champs requis.");
+        return;
+      }
+    }
+
+    // Validation email
+    const email = formData.get('email');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Adresse email invalide.");
+      return;
+    }
+
+    // Validation téléphone (ex : +33 6 12 34 56 78 ou 0612345678)
+    const phone = formData.get('telephone').replace(/\s+/g, '');
+    const phoneRegex = /^(?:\+33|0)[1-9]\d{8}$/;
+    if (!phoneRegex.test(phone)) {
+      alert("Numéro de téléphone invalide. Exemples valides : +33612345678 ou 0612345678");
+      return;
+    }
+  }
+
+  // Changement d'étape
+  document.getElementById('step' + current).classList.remove('active');
+  document.getElementById('step' + (current + 1)).classList.add('active');
+  document.getElementById('step' + current + '-bar').classList.remove('active');
+  document.getElementById('step' + (current + 1) + '-bar').classList.add('active');
+
+  if (current === 2) showSummary();
+}
+
+
+  function prevStep(current) {
+    document.getElementById('step' + current).classList.remove('active');
+    document.getElementById('step' + (current - 1)).classList.add('active');
+    document.getElementById('step' + current + '-bar').classList.remove('active');
+    document.getElementById('step' + (current - 1) + '-bar').classList.add('active');
+  }
+
+  function showSummary() {
+  // Résumé panier
+  let summaryHTML = "<ul>";
+  let total = 0;
+  cart.forEach(item => {
+    const lineTotal = item.quantity * 50;
+    summaryHTML += `<li>${item.quantity} x ${item.color} = ${lineTotal} €</li>`;
+    total += lineTotal;
+  });
+  summaryHTML += "</ul>";
+  document.getElementById("summary").innerHTML = summaryHTML;
+  document.getElementById("totalPrice").innerText = total;
+
+  // Résumé client
+  const formData = new FormData(document.getElementById("orderForm"));
+  const clientHTML = `
+    <p><strong>Nom :</strong> ${formData.get('prenom')} ${formData.get('nom')}</p>
+    <p><strong>Adresse :</strong> ${formData.get('adresse')}, ${formData.get('code_postal')} ${formData.get('ville')}</p>
+    <p><strong>Téléphone :</strong> ${formData.get('telephone')}</p>
+    <p><strong>Email :</strong> ${formData.get('email')}</p>
+  `;
+  document.getElementById("client-info").innerHTML = clientHTML;
+}
+</script>
+<script>
+function validateOrder() {
+ if (event) event.preventDefault();
+  // 1. Récupération du panier depuis le tableau
+  const cart = [];
+  const rows = document.querySelectorAll("#cart-table tbody tr");
+
+  console.log("📄 Lignes du panier :", rows.length);
+
+  rows.forEach(row => {
+    const color = row.children[0].innerText.trim();
+    const quantity = parseInt(row.children[1].innerText.trim());
+
+    if (color && quantity > 0) {
+      cart.push({ color, quantity });
+    }
+  });
+
+  if (cart.length === 0) {
+    alert("🛒 Votre panier est vide.");
+    return;
+  }
+
+  console.log("✅ Panier récupéré :", cart);
+
+  // 2. Infos client
+  const client = {
+    prenom: document.getElementById("prenom").value.trim(),
+    nom: document.getElementById("nom").value.trim(),
+    adresse: document.getElementById("adresse").value.trim(),
+    code_postal: document.getElementById("code_postal").value.trim(),
+    ville: document.getElementById("ville").value.trim(),
+    telephone: document.getElementById("telephone").value.trim(),
+    email: document.getElementById("email").value.trim()
+  };
+
+  console.log("👤 Infos client :", client);
+
+  // 3. Envoi à Stripe
+ fetch("create-checkout-session.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      cart: cart,
+      client: client
+    }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("📦 Réponse Stripe :", data);
+
+    if (data.sessionId) {
+      console.log("🔁 Redirection vers Stripe...");
+      stripe.redirectToCheckout({ sessionId: data.sessionId });
+    } else {
+      alert("❌ Erreur : session Stripe introuvable !");
+      console.error("Erreur Stripe :", data);
+    }
+  })
+  .catch(error => {
+    console.error("🚨 Erreur lors de la création de la session Stripe :", error.message);
+    alert("Une erreur est survenue lors de la création de la session Stripe.");
+  });
+
+ }
+
+  function showGallery(color) {
+    document.querySelectorAll('.gallery').forEach(g => g.classList.remove('active'));
+    document.getElementById(`gallery-${color}`).classList.add('active');
+
+    document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
