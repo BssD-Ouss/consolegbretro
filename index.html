@@ -12,214 +12,352 @@
 <script>
   const stripe = Stripe("pk_test_51MqgSbKffElW1aFCbLOyAjrd1PGeNwOJFSI97i4c0bJgVYOFBFePl57DippTLrxBanODTG66IrD5s3Vt9Pr1d5Kj0000rLjeG6"); // ta clé publique
 </script>
-  <style>
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background: #121212;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      text-align: center;
-      padding: 2rem;
-      background: #1f1f1f;
-      border-bottom: 4px solid #ff004c;
-    }
-    header img {
-      max-width: 250px;
-      margin-bottom: 0.1rem;
-    }
-    header h1 {
-      color: #ff004c;
-      font-size: 1.6rem;
-      margin-bottom: 0.5rem;
-    }
-    .container {
-      padding: 2rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .intro {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      color: #ccc;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+<style>
+  body {
+    font-family: 'Press Start 2P', cursive;
+    background: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    text-align: center;
+    padding: 2rem;
+    background: #1f1f1f;
+    border-bottom: 4px solid #ff004c;
+  }
+  header img {
+    max-width: 250px;
+    margin-bottom: 0.1rem;
+  }
+  header h1 {
+    color: #ff004c;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: auto;
+  }
+  .intro {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #ccc;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-    .color-selector {
-      text-align: center;
-      margin-bottom: 2rem;
+  .color-selector {
+    display: flex;
+    overflow-x: auto;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+  .color-selector::-webkit-scrollbar {
+    display: none;
+  }
+  .color-btn {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    flex: 0 0 auto;
+  }
+  .color-btn:hover, .color-btn.active {
+    border: 2px solid #ff004c;
+    box-shadow: 0 0 10px #ff004c;
+  }
+
+  .gallery {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .gallery.active {
+    display: flex;
+  }
+  .gallery img {
+    width: 300px;
+    max-width: 100%;
+    border: 3px solid #ff004c;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .carousel-controls {
+    display: none;
+  }
+
+  .product-description {
+    font-size: 0.9rem;
+    color: #ddd;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .product-description ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .product-description ul li::before {
+    content: "🎮 ";
+  }
+
+  .cta {
+    display: block;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .cta a {
+    background: #ff004c;
+    padding: 1rem 2rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.7rem;
+    color: #aaa;
+    border-top: 1px solid #333;
+    margin-top: 3rem;
+  }
+
+  .step {
+    display: none;
+  }
+  .step.active {
+    display: block;
+  }
+  .progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+  }
+  .progress-step {
+    width: 30%;
+    text-align: center;
+    padding: 0.5rem;
+    border-bottom: 4px solid #666;
+    transition: all 0.3s;
+  }
+  .progress-step.active {
+    border-color: #ff004c;
+    color: #ff004c;
+  }
+  input, select {
+    width: 100%;
+    padding: 0.7rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  button {
+    background: #ff004c;
+    border: none;
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  th, td {
+    border: 1px solid #444;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  .remove-btn {
+    background: none;
+    color: #ff004c;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  /* Mobile adjustments */
+  @media screen and (max-width: 768px) {
+    header img {
+      max-width: 70%;
     }
-    .color-btn {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      margin: 0 10px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid white;
+    .progress-bar {
+      flex-direction: column;
+      align-items: flex-start;
     }
-    .color-btn:hover, .color-btn.active {
-      border: 2px solid #ff004c;
-      box-shadow: 0 0 10px #ff004c;
+    .progress-step {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    th, td {
+      font-size: 0.8rem;
+      padding: 0.4rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    .buttons {
+      flex-direction: column;
+      gap: 0.7rem;
     }
 
     .gallery {
-      display: none;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
     }
-
     .gallery img {
-      width: 300px;
-      border: 3px solid #ff004c;
-      border-radius: 10px;
-    }
-
-    .gallery.active {
-      display: flex;
-    }
-
-    .product-description {
-      font-size: 0.9rem;
-      color: #ddd;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .product-description ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 1rem;
-    }
-    .product-description ul li::before {
-      content: "🎮 ";
-    }
-
-    .cta {
-      display: block;
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .cta a {
-      background: #ff004c;
-      padding: 1rem 2rem;
-      color: white;
-      text-decoration: none;
-      font-size: 0.9rem;
-      border-radius: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.7rem;
-      color: #aaa;
-      border-top: 1px solid #333;
-      margin-top: 3rem;
-    }
-
-    @media(max-width: 600px) {
-      header img {
-        max-width: 70%;
-      }
-      .gallery img {
-        width: 90%;
-      }
-    }
-  .step {
       display: none;
+      width: 90%;
     }
-    .step.active {
+    .gallery img.active {
       display: block;
     }
-    .progress-bar {
+
+    /* 🎮 GameBoy-style flèches */
+    .carousel-controls {
       display: flex;
       justify-content: space-between;
-      margin: 2rem 0;
-    }
-    .progress-step {
-      width: 30%;
-      text-align: center;
-      padding: 0.5rem;
-      border-bottom: 4px solid #666;
-      transition: all 0.3s;
-    }
-    .progress-step.active {
-      border-color: #ff004c;
-      color: #ff004c;
-    }
-    input, select {
       width: 100%;
-      padding: 0.7rem;
-      margin: 1rem 0;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: none;
-    }
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-    button {
-      background: #ff004c;
-      border: none;
-      padding: 1rem 2rem;
-      color: white;
-      font-size: 0.9rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-table {
-      width: 100%;
-      border-collapse: collapse;
+      padding: 0 1rem;
       margin-top: 1rem;
+      gap: 1rem;
     }
-    th, td {
-      border: 1px solid #444;
-      padding: 0.5rem;
-      text-align: center;
-    }
-    .remove-btn {
-      background: none;
-      color: #ff004c;
+    .carousel-controls button {
+      background: #8dff4f; /* vert GameBoy */
+      color: #000;
+      font-weight: bold;
+      font-family: monospace;
+      border: 2px solid #000;
+      padding: 0.4rem 1rem;
+      font-size: 1.2rem;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 1rem;
+      flex: 1;
+      max-width: 100px;
+      box-shadow: 2px 2px #333;
     }
-@media screen and (max-width: 768px) {
-  .progress-bar {
+    .carousel-controls button:hover {
+      background: #b0ff80;
+      box-shadow: 1px 1px #000;
+    }
+	.footer-grid {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
   }
-  .progress-step {
+
+  .footer-column {
     width: 100%;
-    margin-bottom: 0.5rem;
-    text-align: left;
   }
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+
+  .social-icons {
+    justify-content: center;
   }
-  th, td {
-    font-size: 0.8rem;
-    padding: 0.4rem;
   }
-  button {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
- .buttons {
-    flex-direction: column;
-    gap: 0.7rem;
-  }
+ footer {
+  background: #1c1c1c;
+  color: #8dff4f;
+  padding: 2rem 1rem;
+  font-family: 'Press Start 2P', cursive;
+  border-top: 4px solid #ff004c;
+  margin-top: 3rem;
 }
-  </style>
+
+.footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-column h4 {
+  color: #ff004c;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.footer-column p, .footer-column ul {
+  font-size: 0.6rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-column ul li a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+  color: #ff004c;
+}
+
+.social-icons a {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #8dff4f;
+}
+
+.social-icons a:hover {
+  color: #ff004c;
+}
+
+footer .copyright {
+  text-align: center;
+  font-size: 0.5rem;
+  color: #666;
+  margin-top: 2rem;
+}
+ .social-icons a:hover {
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000;
+}
+
+</style>
 </head>
 <body>
 
@@ -246,34 +384,56 @@ table {
   </div>
 
   <!-- GALERIES -->
+  
   <div id="gallery-noir" class="gallery active">
-    <img src="img/noir1.jpg" alt="Console noire 1">
-    <img src="img/noir2.jpg" alt="Console noire 2">
-    <img src="img/noir3.jpg" alt="Console noire 3">
+  <img src="img/noir1.jpg" class="active" alt="Console noire 1">
+  <img src="img/noir2.jpg" alt="Console noire 2">
+  <img src="img/noir3.jpg" alt="Console noire 3">
+
+  <div class="carousel-controls">
+    <button onclick="prevImage('gallery-noir')">◀</button>
+    <button onclick="nextImage('gallery-noir')">▶</button>
   </div>
+</div>
 
   <div id="gallery-blanc" class="gallery">
-    <img src="img/blanc1.jpg" alt="Console blanche 1">
+    <img src="img/blanc1.jpg" class="active" alt="Console blanche 1">
     <img src="img/blanc2.jpg" alt="Console blanche 2">
     <img src="img/blanc3.jpg" alt="Console blanche 3">
+	<div class="carousel-controls">
+    <button onclick="prevImage('gallery-blanc')">◀</button>
+    <button onclick="nextImage('gallery-blanc')">▶</button>
+  </div>
   </div>
 
   <div id="gallery-violette" class="gallery">
-    <img src="img/violette1.jpg" alt="Console violette 1">
+    <img src="img/violette1.jpg" class="active" alt="Console violette 1">
     <img src="img/violette2.jpg" alt="Console violette 2">
     <img src="img/violette3.jpg" alt="Console violette 3">
+	<div class="carousel-controls">
+    <button onclick="prevImage('gallery-violette')">◀</button>
+    <button onclick="nextImage('gallery-violette')">▶</button>
+  </div>
   </div>
 
   <div id="gallery-rouge" class="gallery">
-    <img src="img/rouge1.jpg" alt="Console rouge 1">
+    <img src="img/rouge1.jpg" class="active" alt="Console rouge 1">
     <img src="img/rouge2.jpg" alt="Console rouge 2">
     <img src="img/rouge3.jpg" alt="Console rouge 3">
+		<div class="carousel-controls">
+    <button onclick="prevImage('gallery-rouge')">◀</button>
+    <button onclick="nextImage('gallery-rouge')">▶</button>
+  </div>
   </div>
 
   <div id="gallery-orange" class="gallery">
-    <img src="img/orange1.jpg" alt="Console orange 1">
+    <img src="img/orange1.jpg" class="active" alt="Console orange 1">
     <img src="img/orange2.jpg" alt="Console orange 2">
     <img src="img/orange3.jpg" alt="Console orange 3">
+			<div class="carousel-controls">
+    <button onclick="prevImage('gallery-orange')">◀</button>
+    <button onclick="nextImage('gallery-orange')">▶</button>
+  </div>
   </div>
 
   <div class="product-description">
@@ -353,6 +513,33 @@ table {
     </div>
   </form>
 </div>
+<footer>
+  <div class="footer-grid">
+    <div class="footer-column">
+      <h4>ConsoleGBRetro</h4>
+      <p>+ de 20 000 jeux intégrés<br>dans une seule console portable 🎮</p>
+    </div>
+    <div class="footer-column">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#top">Accueil</a></li>
+        <li><a href="#step1">Commander</a></li>
+        <li><a href="mailto:support@consolegbretro.com">Contact</a></li>
+        <li><a href="#">Mentions légales</a></li>
+        <li><a href="#">Conditions générales</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Suivez-nous</h4>
+      <div class="social-icons">
+        <a href="#" title="Instagram">📸</a>
+        <a href="#" title="Facebook">📘</a>
+        <a href="#" title="YouTube">📺</a>
+      </div>
+    </div>
+  </div>
+  <p class="copyright">© 2025 ConsoleGBRetro. Tous droits réservés. | Fièrement en 8-bit 💾</p>
+</footer>
 
 <script>
   const cart = [];
@@ -553,13 +740,61 @@ function validateOrder() {
   });
 
  }
+ </script>
 
+<script>
   function showGallery(color) {
+    // Masquer toutes les galeries
     document.querySelectorAll('.gallery').forEach(g => g.classList.remove('active'));
-    document.getElementById(`gallery-${color}`).classList.add('active');
+    const gallery = document.getElementById(`gallery-${color}`);
+    gallery.classList.add('active');
 
+    const images = gallery.querySelectorAll("img");
+    images.forEach(img => img.classList.remove("active"));
+
+    // Seulement sur mobile : activer la première image
+    if (window.innerWidth <= 768 && images.length) {
+      images[0].classList.add("active");
+    }
+
+    // Gérer les boutons de couleur
     document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    const btn = Array.from(document.querySelectorAll('.color-btn')).find(el =>
+      el.getAttribute('onclick') === `showGallery('${color}')`
+    );
+    if (btn) btn.classList.add('active');
+  }
+
+  function nextImage(galleryId) {
+    if (window.innerWidth > 768) return; // Ne rien faire sur desktop
+
+    const gallery = document.getElementById(galleryId);
+    const images = gallery.querySelectorAll('img');
+    const current = gallery.querySelector('img.active');
+
+    if (!current) return;
+
+    let index = Array.from(images).indexOf(current);
+    current.classList.remove('active');
+
+    index = (index + 1) % images.length;
+    images[index].classList.add('active');
+  }
+
+  function prevImage(galleryId) {
+    if (window.innerWidth > 768) return; // Ne rien faire sur desktop
+
+    const gallery = document.getElementById(galleryId);
+    const images = gallery.querySelectorAll('img');
+    const current = gallery.querySelector('img.active');
+
+    if (!current) return;
+
+    let index = Array.from(images).indexOf(current);
+    current.classList.remove('active');
+
+    index = (index - 1 + images.length) % images.length;
+    images[index].classList.add('active');
   }
 </script>
 </body>
